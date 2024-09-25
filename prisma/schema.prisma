@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  user_id       Int      @id @default(autoincrement())
+  email         String   @unique
+  password_hash String
+  role          Role
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  assignments   Program_Assignment[]
+}
+
+model Program {
+  program_id  Int       @id @default(autoincrement())
+  name        String    @unique
+  type        String    // e.g., 'Bachelor', 'Master', etc.
+  url         String    // URL for the dynamic form
+  rule_set_id Int?      // Foreign key to link to a single rule set
+  rule_set    Admission_Rule? @relation(fields: [rule_set_id], references: [rule_set_id])
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  assignments Program_Assignment[]  // Many-to-many relation with users
+}
+
+model Program_Assignment {
+  assignment_id Int    @id @default(autoincrement())
+  user_id       Int
+  program_id    Int
+  user          User    @relation(fields: [user_id], references: [user_id])
+  program       Program @relation(fields: [program_id], references: [program_id])
+
+  @@unique([user_id, program_id]) // Ensure that each user-program assignment is unique
+}
+
+model Admission_Rule {
+  rule_set_id       Int              @id @default(autoincrement())
+  name          String           // Rule set name
+  programs      Program[]          // Rule set can belong to multiple programs
+  attributes    Rule_Attribute[]
+  weight_ranges Weight_Range[]   // Weight ranges to define admission likelihood
+  created_at    DateTime         @default(now())
+  updated_at    DateTime         @updatedAt
+}
+
+model Rule_Attribute {
+  attribute_id  Int       @id @default(autoincrement())
+  rule_set_id       Int       
+  rule_set          Admission_Rule @relation(fields: [rule_set_id], references: [rule_set_id])
+  name          String    // e.g., GPA, SAT score
+  required      Boolean   // Is the attribute required?
+  display_order Int       // Display order
+  conditions    Rule_Condition[]
+}
+
+model Rule_Condition {
+  condition_id  Int     @id @default(autoincrement())
+  attribute_id  Int
+  operator      Operator
+  value         Float
+  weight        Int      // Weight for the specific condition
+  attribute     Rule_Attribute @relation(fields: [attribute_id], references: [attribute_id])
+}
+
+model Weight_Range {
+  range_id      Int      @id @default(autoincrement())
+  rule_set_id       Int       
+  rule_set          Admission_Rule @relation(fields: [rule_set_id], references: [rule_set_id])
+  min_weight    Int      // Minimum weight for the range
+  max_weight    Int      // Maximum weight for the range
+  admission_chance Int   // Admission chance (e.g., 50%)
+}
+
+enum Role {
+  Director
+  Coordinator
+}
+
+enum Operator {
+  GREATER_THAN
+  GREATER_THAN_OR_EQUAL
+  LESS_THAN
+  LESS_THAN_OR_EQUAL
+  EQUAL
+}
