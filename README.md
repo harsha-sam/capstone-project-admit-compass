@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+### **README for AdmitCompass**
 
-## Getting Started
+---
 
-First, run the development server:
+## **Project Summary**
 
+**AdmitCompass** is a web-based platform designed to assist both prospective students and program administrators within UMBC's Engineering Department. The platform offers the following key features:
+
+- **For Prospective Students**: AdmitCompass provides a dynamic application form that evaluates a student's chances of admission to various undergraduate and graduate engineering programs. Students can input their academic details, and the system calculates their admission likelihood based on predefined rules and conditions set by program administrators.
+  
+- **For Program Directors and Admission Coordinators**: The platform enables administrators to create and manage rule sets for specific programs. These rule sets define the admission criteria (e.g., GPA, coursework, and test scores) and can be adjusted over time. Program administrators can assign rule sets to multiple programs, edit existing ones, and manage the overall admission evaluation process.
+
+---
+
+## **Features**
+
+### **Prospective Students**
+- **Program Exploration**: Browse available engineering programs, grouped by type (Bachelor's, Accelerated, Master's, etc.).
+- **Dynamic Application Form**: Fill out a program-specific form, dynamically generated based on the assigned admission rules.
+- **Admission Likelihood Calculation**: Get real-time feedback on the likelihood of admission after submitting the form.
+
+### **Program Directors & Admission Coordinators**
+- **User Authentication**: Secure sign-up and login using UMBC domain emails, with role-based access (Director or Coordinator).
+- **Rule Set Creation & Management**: Create, edit, and manage rule sets that define admission criteria, including attributes like GPA and test scores.
+- **Program Assignment**: Assign rule sets to specific programs and ensure each program has only one active rule set at a time.
+- **Advanced Search & Filter**: Easily search and filter rule sets by program or criteria.
+
+---
+
+## **Technology Stack**
+
+- **Frontend**: Next.js 14 with TypeScript, Shadcn/UI for components, TailwindCSS for styling.
+- **Backend**: Next.js API routes for handling authentication, rule set management, and application form processing.
+- **Database**: PostgreSQL with Prisma ORM.
+- **Authentication**: JWT-based authentication for secure user sessions.
+- **Hosting**: Supabase for database hosting and static assets.
+
+---
+
+## **Installation**
+
+### **1. Clone the Repository**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/admitcompass.git
+cd admitcompass
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### **2. Install Dependencies**
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### **3. Set Up Environment Variables**
+Create a `.env` file in the root directory and add the following environment variables:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+DATABASE_URL=your-postgresql-connection-string
+JWT_SECRET=your-jwt-secret-key
+```
 
-## Learn More
+### **4. Database Setup**
+- Install and run PostgreSQL locally or use Supabase for cloud-hosted PostgreSQL.
+- Use Prisma to generate the database schema.
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npx prisma migrate dev
+npx prisma generate
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### **5. Run the Development Server**
+```bash
+npm run dev
+```
+Access the project at `http://localhost:3000`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## **API Routes**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **POST /api/signup**: User sign-up with UMBC domain validation.
+- **POST /api/signin**: User login, returns JWT token.
+- **GET /api/programs**: Fetch the list of programs available.
+- **POST /api/rules/create**: Create a new rule set for a program.
+- **POST /api/programs/[programId]/apply**: Submit an application form and calculate admission likelihood.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## **License**
+This project is licensed under the MIT License.
