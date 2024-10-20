@@ -7,7 +7,7 @@ export async function GET(req: NextRequest, { params }: { params: { ruleId: stri
     const ruleId = parseInt(params.ruleId)
 
     const ruleSet = await prisma.admission_Rule.findUnique({
-      where: { rule_id: ruleId },
+      where: { rule_set_id: ruleId },
       include: {
         attributes: {
           include: {

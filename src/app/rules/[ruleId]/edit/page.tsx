@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/app/rules/[ruleId]/edit/page.tsx
 'use client'
 
@@ -14,10 +15,10 @@ export default function EditRuleSet() {
   const { ruleId } = useParams()
   
   const [name, setName] = useState('') // Rule set name
-  const [programs, setPrograms] = useState([]) // List of programs
+  const [programs, setPrograms] = useState<any>([]) // List of programs
   const [selectedProgram, setSelectedProgram] = useState('') // Currently assigned program
-  const [attributes, setAttributes] = useState([])
-  const [weightRanges, setWeightRanges] = useState([])
+  const [attributes, setAttributes] = useState<any>([])
+  const [weightRanges, setWeightRanges] = useState<any>([])
 
   // Fetch the existing rule set data
   useEffect(() => {
@@ -104,13 +105,11 @@ export default function EditRuleSet() {
           <CardContent>
             <Label htmlFor="program">Assign to Program</Label>
             <Select
-              id="program"
               value={selectedProgram}
-              onChange={(e) => setSelectedProgram(e.target.value)}
-              className="w-full"
+              onValueChange={setSelectedProgram}
             >
               <option value="" disabled>Select Program</option>
-              {programs.map(program => (
+              {programs.map((program: any) => (
                 <option key={program.program_id} value={program.program_id}>
                   {program.name}
                 </option>
@@ -121,7 +120,7 @@ export default function EditRuleSet() {
 
         {/* Attributes Section */}
         <h2 className="text-2xl mb-4">Attributes</h2>
-        {attributes.map((attribute, index) => (
+        {attributes.map((attribute: any, index: number) => (
           <Card key={index} className="mb-4">
             <CardContent>
               <Label htmlFor={`attribute-name-${index}`}>Attribute Name</Label>
@@ -155,7 +154,7 @@ export default function EditRuleSet() {
               </div>
 
               {/* Conditions for Attributes */}
-              {attribute.conditions.map((condition, conditionIndex) => (
+              {attribute.conditions.map((condition: any, conditionIndex: number) => (
                 <div key={conditionIndex} className="flex items-center mt-4">
                   {/* Comparison Operator */}
                   <select
@@ -195,7 +194,7 @@ export default function EditRuleSet() {
 
         {/* Weight Ranges Section */}
         <h2 className="text-2xl mb-4">Weight Ranges</h2>
-        {weightRanges.map((range, index) => (
+        {weightRanges.map((range: any, index: number) => (
           <Card key={index} className="mb-4">
             <CardContent>
               <div className="flex items-center">
@@ -231,7 +230,7 @@ export default function EditRuleSet() {
         ))}
 
         {/* Submit Button */}
-        <Button type="submit" variant="primary">
+        <Button type="submit" variant="default">
           Save Changes
         </Button>
       </form>

@@ -9,7 +9,7 @@ export async function POST(req: NextRequest, { params }: { params: { programId: 
 
     // Fetch the rule set for the program
     const ruleSet = await prisma.admission_Rule.findFirst({
-      where: { program_id: programId },
+      where: { programs: { some: { program_id: programId } } },
       include: {
         attributes: {
           include: {

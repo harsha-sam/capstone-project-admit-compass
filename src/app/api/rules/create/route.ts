@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/app/api/rules/create.ts
 
 import { NextRequest, NextResponse } from 'next/server'
@@ -20,12 +21,12 @@ export async function POST(req: NextRequest) {
           connect: { program_id: parseInt(programId) }
         },
         attributes: {
-          create: attributes.map(attr => ({
+          create: attributes.map((attr: any) => ({
             name: attr.name,
             required: attr.required,
             display_order: attr.displayOrder,
             conditions: {
-              create: attr.conditions.map(cond => ({
+              create: attr.conditions.map((cond: any) => ({
                 operator: cond.comparison,
                 value: cond.value,
                 weight: cond.weight
@@ -34,7 +35,7 @@ export async function POST(req: NextRequest) {
           }))
         },
         weight_ranges: {
-          create: weightRanges.map(range => ({
+          create: weightRanges.map((range: any) => ({
             min_weight: range.minWeight,
             max_weight: range.maxWeight,
             admission_chance: range.admissionChance

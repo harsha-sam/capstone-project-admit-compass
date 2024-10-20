@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/app/programs/[programId]/apply/page.tsx
 'use client'
 
@@ -6,9 +7,9 @@ import { useParams } from 'next/navigation'
 
 export default function ApplyProgram() {
   const { programId } = useParams() // Get programId from the URL params
-  const [program, setProgram] = useState(null)
-  const [formValues, setFormValues] = useState({})
-  const [admissionResult, setAdmissionResult] = useState(null)
+  const [program, setProgram] = useState<any>({name: '', attributes: []})
+  const [formValues, setFormValues] = useState<any>({})
+  const [admissionResult, setAdmissionResult] = useState<any>(null)
 
   // Fetch the rule set when the page loads
   useEffect(() => {

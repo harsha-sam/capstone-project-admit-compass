@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -17,9 +18,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 export default function CreateRuleSet() {
   const router = useRouter()
   const [name, setName] = useState('') // Rule set name
-  const [programs, setPrograms] = useState([]) // Programs fetched from the API
+  const [programs, setPrograms] = useState<any>([]) // Programs fetched from the API
   const [selectedProgram, setSelectedProgram] = useState('') // Selected program ID
-  const [attributes, setAttributes] = useState([
+  const [attributes, setAttributes] = useState<any>([
     {
       name: '',
       required: false,
@@ -102,7 +103,7 @@ export default function CreateRuleSet() {
     field: string,
     value: string | number
   ) => {
-    const newWeightRanges = [...weightRanges]
+    const newWeightRanges: any = [...weightRanges]
     newWeightRanges[index][field] = value
     setWeightRanges(newWeightRanges)
   }
@@ -141,7 +142,6 @@ export default function CreateRuleSet() {
         <div>
           <Label htmlFor="program">Assign to Program</Label>
           <Select
-            id="program"
             value={selectedProgram}
             onValueChange={setSelectedProgram}
           >
@@ -149,7 +149,7 @@ export default function CreateRuleSet() {
               <SelectValue placeholder="Select Program" />
             </SelectTrigger>
             <SelectContent>
-              {programs.map((program) => (
+              {programs.map((program: any) => (
                 <SelectItem key={program.program_id} value={program.program_id.toString()}>
                   {program.name}
                 </SelectItem>
@@ -160,7 +160,7 @@ export default function CreateRuleSet() {
 
         {/* Attributes Section */}
         <h2 className="text-2xl">Attributes</h2>
-        {attributes.map((attribute, index) => (
+        {attributes.map((attribute: any, index: number) => (
           <Card key={index} className="mb-4">
             <CardHeader>
               <CardTitle>{`Attribute ${index + 1}`}</CardTitle>
@@ -211,7 +211,7 @@ export default function CreateRuleSet() {
               </div>
 
               {/* Conditions for Attributes */}
-              {attribute.conditions.map((condition, conditionIndex) => (
+              {attribute.conditions.map((condition: any, conditionIndex: number) => (
                 <div key={conditionIndex} className="flex items-center space-x-4">
                   {/* Comparison Operator */}
                   <select
@@ -351,7 +351,7 @@ export default function CreateRuleSet() {
         </Button>
 
         {/* Submit Button */}
-        <Button type="submit" variant="primary">
+        <Button type="submit" variant="default">
           Create Rule Set
         </Button>
       </form>

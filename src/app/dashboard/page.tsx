@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useState, useEffect } from 'react'
@@ -26,11 +27,12 @@ export default function Dashboard() {
   // Filter rule sets by search input (program ID or name)
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
+    if (!allRuleSets) return;
     if (search.trim() === "") {
       setRuleSets(allRuleSets) // Reset to all rule sets if search is empty
     } else {
       const filteredRuleSets = allRuleSets.filter((ruleSet: any) =>
-        ruleSet.programs.some((program: any) =>
+        ruleSet?.programs.some((program: any) =>
           program.name.toLowerCase().includes(search.toLowerCase()) ||
           program.program_id.toString().includes(search)
         )

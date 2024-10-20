@@ -21,8 +21,10 @@ export async function GET(req: NextRequest) {
       // Fetch rule sets associated with the given programId
       ruleSets = await prisma.admission_Rule.findMany({
         where: {
-          program: {
-            program_id: parseInt(programId)
+          programs: {
+            some: {
+              program_id: parseInt(programId)
+            }
           }
         },
         include: {

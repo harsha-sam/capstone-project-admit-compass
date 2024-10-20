@@ -8,6 +8,7 @@ export async function GET() {
     const programs = await prisma.program.findMany()
     return NextResponse.json({ programs })
   } catch (error) {
+    console.error('Error fetching programs:', error)
     return NextResponse.json({ error: 'Failed to fetch programs' }, { status: 500 })
   }
 }

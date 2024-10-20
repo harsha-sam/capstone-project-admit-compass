@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -10,7 +11,7 @@ export default function ProgramList() {
   const [showAccelerated, setShowAccelerated] = useState(false)
   const [showProfessional, setShowProfessional] = useState(false)
   const [showDoctorate, setShowDoctorate] = useState(false)
-  const [groupedPrograms, setGroupedPrograms] = useState({
+  const [groupedPrograms, setGroupedPrograms] = useState<any>({
     bachelor: [],
     accelerated: [],
     professional: [],
@@ -27,10 +28,10 @@ export default function ProgramList() {
 
       // Group the programs based on type
       const grouped = {
-        bachelor: programs.filter(program => program.type === `Bachelor's And Minor`),
-        accelerated: programs.filter(program => program.type === `Accelerated Bachelor's/Master's Programs`),
-        professional: programs.filter(program => program.type === `Applied and Professional Master’s Programs`),
-        doctorate: programs.filter(program => program.type === `Master’s and Doctorate Programs`)
+        bachelor: programs.filter((program: any) => program.type === `Bachelor's And Minor`),
+        accelerated: programs.filter((program: any) => program.type === `Accelerated Bachelor's/Master's Programs`),
+        professional: programs.filter((program: any) => program.type === `Applied and Professional Master’s Programs`),
+        doctorate: programs.filter((program: any) => program.type === `Master’s and Doctorate Programs`)
       }
 
       setGroupedPrograms(grouped)
@@ -71,14 +72,14 @@ export default function ProgramList() {
         {/* Introductory Text about AdmitCompass */}
         <div className="mb-12">
           <p className="text-lg text-center max-w-3xl mx-auto">
-            <strong>Admit Compass</strong> is your digital mentor, designed to help prospective students assess their chances of admission to UMBC's prestigious engineering programs. Whether you're aiming for an undergraduate or graduate degree, AdmitCompass guides you through the application process, providing personalized insights into program requirements and offering an estimated acceptance rate based on your qualifications. This tool helps you understand where you stand in your journey towards admission, giving you the confidence to make informed decisions.
+            <strong>Admit Compass</strong> {`is your digital mentor, designed to help prospective students assess their chances of admission to UMBC's prestigious engineering programs. Whether you're aiming for an undergraduate or graduate degree, AdmitCompass guides you through the application process, providing personalized insights into program requirements and offering an estimated acceptance rate based on your qualifications. This tool helps you understand where you stand in your journey towards admission, giving you the confidence to make informed decisions.`}
           </p>
         </div>
 
         {/* Bachelor's Section */}
         <div className="mb-8">
           <div className="flex justify-between items-center cursor-pointer" onClick={() => toggleSection('bachelor')}>
-            <h2 className="text-2xl font-semibold">{`Bachelor's and Minor Programs`}</h2>
+            <h2 className="text-2xl font-semibold">{`Bachelors and Minor Programs`}</h2>
             <ChevronDownIcon className={`h-6 w-6 transform ${showBachelor ? 'rotate-180' : ''}`} />
           </div>
           {showBachelor && (
